@@ -1,1 +1,2 @@
 - tests
+- add quandl (as optional data due to its size) 
