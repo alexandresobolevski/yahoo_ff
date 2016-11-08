@@ -1,0 +1,18 @@
+# useless
+.idea
+*.pyc
+.cache/
+
+# credentials
+credentials.json
+
+# created during testing
+*.csv
+*_db
+build
+
+# dist package
+dist
+*.gz
+*.egg
+*.egg-info

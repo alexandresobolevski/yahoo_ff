@@ -1,0 +1,5 @@
+numpy
+pandas
+Quandl
+requests
+datetime
