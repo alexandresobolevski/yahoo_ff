@@ -1,8 +1,8 @@
-import urllib2
+from urllib.request import urlopen
 import time
 import numpy as np
 
-from constants import BASE_URL
+BASE_URL = 'https://ca.finance.yahoo.com/'
 
 powers = {'%': 10 ** (-2), 'M': 10 ** 6, 'B': 10 ** 9, 'T': 10 ** 12}
 
@@ -54,7 +54,7 @@ def get_keystats_url(stock):
     return BASE_URL + '/q/ks?s=' + stock
 
 def get_source_code(url):
-    return urllib2.urlopen(url).read()
+    return urlopen(url).read().decode()
 
 def parse_table(source_code):
     source_code = source_code.split('</td></tr>')[0]
@@ -72,7 +72,7 @@ def find_section(source_code, section_name):
     try:
         return source_code.split(section_name)[1]
     except:
-        print 'failed acquiring ' + section_name
+        print('failed acquiring ' + section_name)
 
 def scrape_company_infos(source_code, field):
     return [source_code.split(field+':')[1].split('</td>')[1].replace('</a>','').split('>')[-1]]

@@ -1,5 +1,5 @@
 numpy
 pandas
-Quandl
 requests
 datetime
+urlopen

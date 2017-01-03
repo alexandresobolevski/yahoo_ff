@@ -1,6 +1,5 @@
 import numpy as np
 
-BASE_URL = 'https://ca.finance.yahoo.com/'
 date_string_length = 12
 
 FIELDS = {'INFO': {}, 'KEY_STATS': {}, 'REPORTS': {'is': [], 'bs': [], 'cf': []}}
@@ -139,8 +138,8 @@ except ImportError:
     }
 
 
-inf_fields = FIELDS['INFO'].keys()
-ks_fields = FIELDS['KEY_STATS'].keys()
+inf_fields = FIELDS['INFO']
+ks_fields = FIELDS['KEY_STATS']
 is_fields = FIELDS['REPORTS']['is']
 bs_fields = FIELDS['REPORTS']['bs']
 cf_fields = FIELDS['REPORTS']['cf']

@@ -1,12 +1,10 @@
 import time
 import json
 import datetime
-from dateutil import parser
-import Quandl
 import pandas as pd
 
-import constants
-from scrapingTools import *
+from yahoo_ff.tools.constants import *
+from yahoo_ff.tools.scrapingTools import *
 
 today = getUnixTime(pd.to_datetime('today'))
 
@@ -18,11 +16,6 @@ class yahoo_ff:
     inf(): company infos
     pr(): today's price
     '''
-    is_fields = constants.is_fields
-    bs_fields = constants.bs_fields
-    cf_fields = constants.cf_fields
-    inf_fields = constants.inf_fields
-    ks_fields = constants.ks_fields
 
     sleep = 0.5 # being a good citizen and not overusing the API
 
@@ -45,37 +38,35 @@ class yahoo_ff:
             self.__construct_company_info()
             self.__wait()
             self.__construct_key_stats()
-            self.__wait()
-            self.__construct_price()
-            print 'flag is ' + str(self.flag)
+            print('flag is ' + str(self.flag))
 
     def __construct_is_annual(self):
         '''
-        populate self.is_quarterly
+        populate self.ra
         '''
         try:
             html = get_source_code(get_annual_is_url(self.ticker)).split('Get Income Statement for:')[1]
             self.is_annual = self.__get_endofperiod(html)
-            for field in self.is_fields:
+            for field in is_fields:
                 self.is_annual[field] = scrape_report(html, field)
-            print 'Annual income statement for ' + str(self.ticker) + ' successfuly obtained'
-        except Exception,e:
+            print('Annual income statement for ' + str(self.ticker) + ' successfuly obtained')
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_is_annual for ' + self.ticker + '; ' + str(e)
+            print('failed construct_is_annual for ' + self.ticker + '; ' + str(e))
 
     def __construct_is_quarterly(self):
         '''
-        populate self.is_quarterly
+        populate self.rq
         '''
         try:
             html = get_source_code(get_quarterly_is_url(self.ticker)).split('Get Income Statement for:')[1]
             self.is_quarterly = self.__get_endofperiod(html)
-            for field in self.is_fields:
+            for field in is_fields:
                 self.is_quarterly[field] = scrape_report(html, field)
-            print 'Quarterly income statement for ' + str(self.ticker) + ' successfuly obtained'
-        except Exception, e:
+            print('Quarterly income statement for ' + str(self.ticker) + ' successfuly obtained')
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_is_quarterly for ' + self.ticker + '; ' + str(e)
+            print('failed construct_is_quarterly for ' + self.ticker + '; ' + str(e))
 
     def __construct_bs_annual(self):
         '''
@@ -84,12 +75,12 @@ class yahoo_ff:
         try:
             html = get_source_code(get_annual_bs_url(self.ticker)).split('Get Balance Sheet for:')[1]
             self.bs_annual = self.__get_endofperiod(html)
-            for field in self.bs_fields:
+            for field in bs_fields:
                 self.bs_annual[field] = scrape_report(html, field)
-            print 'Annual balance sheet for ' + str(self.ticker) + ' successfuly obtained'
-        except Exception, e:
+            print('Annual balance sheet for ' + str(self.ticker) + ' successfuly obtained')
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_bs_annual for ' + self.ticker + '; ' + str(e)
+            print('failed construct_bs_annual for ' + self.ticker + '; ' + str(e))
 
     def __construct_bs_quarterly(self):
         '''
@@ -98,12 +89,12 @@ class yahoo_ff:
         try:
             html = get_source_code(get_quarterly_bs_url(self.ticker)).split('Get Balance Sheet for:')[1]
             self.bs_quarterly = self.__get_endofperiod(html)
-            for field in self.bs_fields:
+            for field in bs_fields:
                 self.bs_quarterly[field] = scrape_report(html, field)
-            print 'Quarterly balance sheet for ' + str(self.ticker) + ' successfuly obtained'
-        except Exception, e:
+            print('Quarterly balance sheet for ' + str(self.ticker) + ' successfuly obtained')
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_bs_quarterly for ' + self.ticker + '; ' + str(e)
+            print('failed construct_bs_quarterly for ' + self.ticker + '; ' + str(e))
 
     def __construct_cf_annual(self):
         '''
@@ -112,12 +103,12 @@ class yahoo_ff:
         try:
             html = get_source_code(get_annual_cf_url(self.ticker)).split('Get Cash Flow for:')[1]
             self.cf_annual = self.__get_endofperiod(html)
-            for field in self.cf_fields:
+            for field in cf_fields:
                 self.cf_annual[field] = scrape_report(html, field)
-            print 'Annual Cash Flows for ' + str(self.ticker) + ' successfuly obtained'
-        except Exception, e:
+            print('Annual Cash Flows for ' + str(self.ticker) + ' successfuly obtained')
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_cf_annual for ' + self.ticker + '; ' + str(e)
+            print('failed construct_cf_annual for ' + self.ticker + '; ' + str(e))
 
     def __construct_cf_quarterly(self):
         '''
@@ -126,12 +117,12 @@ class yahoo_ff:
         try:
             html = get_source_code(get_quarterly_cf_url(self.ticker)).split('Get Cash Flow for:')[1]
             self.cf_quarterly = self.__get_endofperiod(html)
-            for field in self.cf_fields:
+            for field in cf_fields:
                 self.cf_quarterly[field] = scrape_report(html, field)
-            print 'Quarterly Cash Flows for ' + str(self.ticker) + ' successfuly obtained'
-        except Exception, e:
+            print('Quarterly Cash Flows for ' + str(self.ticker) + ' successfuly obtained')
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_cf_quarterly for ' + self.ticker + '; ' + str(e)
+            print('failed construct_cf_quarterly for ' + self.ticker + '; ' + str(e))
 
     def __construct_company_info(self):
         '''
@@ -140,13 +131,13 @@ class yahoo_ff:
         self.company_infos = {}
         try:
             html = get_source_code(get_stockinfo_url(self.ticker))
-            for field in self.inf_fields:
+            for field in inf_fields:
                 self.company_infos[field] = scrape_company_infos(html, field)
-            print 'Company Info for ' + str(self.ticker) + ' successfuly obtained'
+            print('Company Info for ' + str(self.ticker) + ' successfuly obtained')
 
-        except Exception, e:
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_stockinfo for ' + self.ticker + '; ' + str(e)
+            print('failed construct_stockinfo for ' + self.ticker + '; ' + str(e))
 
     def __construct_key_stats(self):
         '''
@@ -155,13 +146,13 @@ class yahoo_ff:
         self.key_stats = {}
         try:
             html = get_source_code(get_keystats_url(self.ticker))
-            for field in self.ks_fields:
+            for field in ks_fields:
                 self.key_stats[field] = scrape_key_stats(html, field)
-            print 'Key Stats for ' + str(self.ticker) + ' successfuly obtained'
+            print('Key Stats for ' + str(self.ticker) + ' successfuly obtained')
 
-        except Exception, e:
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_keystats for ' + self.ticker + '; ' + str(e)
+            print('failed construct_keystats for ' + self.ticker + '; ' + str(e))
 
     def __construct_price(self):
         '''
@@ -170,17 +161,18 @@ class yahoo_ff:
         try:
             html = get_source_code(get_keystats_url(self.ticker))
             self.current_price = get_current_price(html)
-            print 'Price for ' + str(self.ticker) + ' successfuly obtained'
+            print('Price for ' + str(self.ticker) + ' successfuly obtained')
 
-        except Exception, e:
+        except Exception as e:
             self.flag = 1
-            print 'failed construct_price for ' + self.ticker + '; ' + str(e)
+            print('failed construct_price for ' + self.ticker + '; ' + str(e))
 
     def __get_endofperiod(self, html):
         '''
         scrape the html source code for the ending periods of each column
         '''
         source_code = html
+
         end_periods = source_code.split('Period Ending')[1]
         end_periods = end_periods.split('</TR>')[0]
         # take out unwanted html formatting
@@ -196,21 +188,9 @@ class yahoo_ff:
         if len(end_periods) == 1:
             end_periods = end_periods[0].split('</TD>')
 
-        dates = [pd.to_datetime(x[-constants.date_string_length:]) for x in end_periods if x is not '']
+        dates = [pd.to_datetime(x[-date_string_length:]) for x in end_periods if x is not '']
         dates = [getUnixTime(date) for date in dates]
         return {'Date': dates}
-
-    def __get_pricehistory(self):
-        '''
-        get stock price history and volume traded using quandl api
-        '''
-        with open('credentials.json', 'r') as creds:
-            credentials = json.load(creds)
-            try:
-                self.pricehistory = Quandl.get('WIKI/' + self.ticker, authtoken=credentials['Quandl']['key'])
-            except Exception, e:
-                self.flag = 1
-                print 'failed get_pricehistory for ' + self.ticker + '; ' + str(e)
 
     def ar(self):
         '''
