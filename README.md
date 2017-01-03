@@ -27,4 +27,4 @@ keyStatsOfTheDay = aapl.ks()
 infoAboutCompany = aapl.inf()
 priceOfTheDay = aapl.pr()
 ```
-![](https://github.com/alexandresobolevski/yahoo_ff/)
+![](https://github.com/alexandresobolevski/yahoo_ff/blob/master/screenshot.png)
