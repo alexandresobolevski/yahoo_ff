@@ -3,7 +3,7 @@ Package to obtain financial fundamental data.
 
 ## Requirements
 ```
-pip install -r requirements
+pip install -r requirements.txt
 ```
 
 ## Installation
@@ -27,3 +27,4 @@ keyStatsOfTheDay = aapl.ks()
 infoAboutCompany = aapl.inf()
 priceOfTheDay = aapl.pr()
 ```
+![](https://github.com/alexandresobolevski/yahoo_ff/)
