@@ -2,12 +2,12 @@
 Package to obtain financial fundamental data from yahoo.com/finance webiste. Returns the balance sheet, income statement, cashflow, key statistics, price and other infos.
 
 ## Requirements
-```
-pip install -r requirements.txt
+```bash
+$ pip install -r requirements.txt
 ```
 
 ## Installation
-```
+```bash
 $ pip install yahoo_ff
 
 ```
@@ -15,7 +15,7 @@ $ pip install yahoo_ff
 ## Using
 
 ### A single stock
-```
+```python
 from yahoo_ff.yahoo_ff import yahoo_ff
 aapl = yahoo_ff('aapl')
 ```
