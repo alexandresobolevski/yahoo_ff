@@ -1,5 +1,5 @@
 # yahoo_ff
-Package to obtain financial fundamental data.
+Package to obtain financial fundamental data from yahoo.com/finance webiste. Returns the balance sheet, income statement, cashflow, key statistics, price and other infos.
 
 ## Requirements
 ```
