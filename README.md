@@ -27,4 +27,6 @@ keyStatsOfTheDay = aapl.ks()
 infoAboutCompany = aapl.inf()
 priceOfTheDay = aapl.pr()
 ```
+
+this is an example for apple's last 3 years of financial data (70 rows)
 ![](https://github.com/alexandresobolevski/yahoo_ff/blob/master/screenshot.png)
