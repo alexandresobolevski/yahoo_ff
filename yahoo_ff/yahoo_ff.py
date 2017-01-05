@@ -38,6 +38,15 @@ class yahoo_ff:
             self.__construct_company_info()
             self.__wait()
             self.__construct_key_stats()
+            self.__wait()
+            self.__construct_price()
+
+            self.sec_annual = self.__sec_package_annual()
+            self.sec_quarter= self.__sec_package_quarterly()
+            self.price = self.__price()
+            self.info  = self.__information()
+            self.stats = self.__key_stats()
+
             print('flag is ' + str(self.flag))
 
     def __construct_is_annual(self):
@@ -192,7 +201,7 @@ class yahoo_ff:
         dates = [getUnixTime(date) for date in dates]
         return {'Date': dates}
 
-    def ar(self):
+    def __sec_package_annual(self):
         '''
         package all annual info from is,
         blanacesheet and cf into a pandas
@@ -207,7 +216,7 @@ class yahoo_ff:
         df_packaged = df_packaged
         return df_packaged
 
-    def qr(self):
+    def __sec_package_quarterly(self):
         '''
         package all quarterly info from is,
         blanacesheet and cf into a pandas
@@ -222,7 +231,7 @@ class yahoo_ff:
         df_packaged = df_packaged
         return df_packaged
 
-    def inf(self):
+    def __information(self):
         '''
         package company company_infos as a pandas dataframe
         '''
@@ -231,7 +240,7 @@ class yahoo_ff:
         df = df.set_index(['Date'])
         return df
 
-    def ks(self):
+    def __key_stats(self):
         '''
         package company key statistics as a pandas dataframe
         '''
@@ -240,7 +249,7 @@ class yahoo_ff:
         df = df.set_index(['Date'])
         return df
 
-    def pr(self):
+    def __price(self):
         '''
         price of the stock atm
         '''

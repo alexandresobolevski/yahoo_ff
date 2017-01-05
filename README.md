@@ -21,11 +21,11 @@ aapl = yahoo_ff('aapl')
 ```
 will create an object from which several Pandas DataFrames of interest can be extracted
 ```
-quarterlySECreports = aapl.qr()
-annualSECreports = aapl.ar()
-keyStatsOfTheDay = aapl.ks()
-infoAboutCompany = aapl.inf()
-priceOfTheDay = aapl.pr()
+quarterlySECreports = aapl.sec_quarter
+annualSECreports = aapl.sec_annual
+keyStatsOfTheDay = aapl.stats
+infoAboutCompany = aapl.info
+priceOfTheDay = aapl.price
 ```
 
 this is an example for apple's last 3 years of financial data (70 rows)
