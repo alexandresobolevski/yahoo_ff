@@ -3,7 +3,8 @@ import json
 import datetime
 import pandas as pd
 
-from yahoo_ff.tools.constants import *
+import yahoo_ff.tools.constants as LOCAL_FIEDLS
+from yahoo_ff.tools.constants import date_string_length
 from yahoo_ff.tools.scrapingTools import *
 
 today = getUnixTime(pd.to_datetime('today'))
@@ -19,8 +20,9 @@ class yahoo_ff:
 
     sleep = 0.5 # being a good citizen and not overusing the API
 
-    def __init__(self, ticker):
+    def __init__(self, ticker, FIELDS_TO_EXTRACT = LOCAL_FIEDLS):
             self.flag = 0
+            self.fields = FIELDS_TO_EXTRACT
             self.ticker = ticker
             self.__wait()
             self.__construct_is_annual()
@@ -56,7 +58,7 @@ class yahoo_ff:
         try:
             html = get_source_code(get_annual_is_url(self.ticker)).split('Get Income Statement for:')[1]
             self.is_annual = self.__get_endofperiod(html)
-            for field in is_fields:
+            for field in self.fields.is_fields:
                 self.is_annual[field] = scrape_report(html, field)
             print('Annual income statement for ' + str(self.ticker) + ' successfuly obtained')
         except Exception as e:
@@ -70,7 +72,7 @@ class yahoo_ff:
         try:
             html = get_source_code(get_quarterly_is_url(self.ticker)).split('Get Income Statement for:')[1]
             self.is_quarterly = self.__get_endofperiod(html)
-            for field in is_fields:
+            for field in self.fields.is_fields:
                 self.is_quarterly[field] = scrape_report(html, field)
             print('Quarterly income statement for ' + str(self.ticker) + ' successfuly obtained')
         except Exception as e:
@@ -84,7 +86,7 @@ class yahoo_ff:
         try:
             html = get_source_code(get_annual_bs_url(self.ticker)).split('Get Balance Sheet for:')[1]
             self.bs_annual = self.__get_endofperiod(html)
-            for field in bs_fields:
+            for field in self.fields.bs_fields:
                 self.bs_annual[field] = scrape_report(html, field)
             print('Annual balance sheet for ' + str(self.ticker) + ' successfuly obtained')
         except Exception as e:
@@ -98,7 +100,7 @@ class yahoo_ff:
         try:
             html = get_source_code(get_quarterly_bs_url(self.ticker)).split('Get Balance Sheet for:')[1]
             self.bs_quarterly = self.__get_endofperiod(html)
-            for field in bs_fields:
+            for field in self.fields.bs_fields:
                 self.bs_quarterly[field] = scrape_report(html, field)
             print('Quarterly balance sheet for ' + str(self.ticker) + ' successfuly obtained')
         except Exception as e:
@@ -112,7 +114,7 @@ class yahoo_ff:
         try:
             html = get_source_code(get_annual_cf_url(self.ticker)).split('Get Cash Flow for:')[1]
             self.cf_annual = self.__get_endofperiod(html)
-            for field in cf_fields:
+            for field in self.fields.cf_fields:
                 self.cf_annual[field] = scrape_report(html, field)
             print('Annual Cash Flows for ' + str(self.ticker) + ' successfuly obtained')
         except Exception as e:
@@ -126,7 +128,7 @@ class yahoo_ff:
         try:
             html = get_source_code(get_quarterly_cf_url(self.ticker)).split('Get Cash Flow for:')[1]
             self.cf_quarterly = self.__get_endofperiod(html)
-            for field in cf_fields:
+            for field in self.fields.cf_fields:
                 self.cf_quarterly[field] = scrape_report(html, field)
             print('Quarterly Cash Flows for ' + str(self.ticker) + ' successfuly obtained')
         except Exception as e:
@@ -140,7 +142,7 @@ class yahoo_ff:
         self.company_infos = {}
         try:
             html = get_source_code(get_stockinfo_url(self.ticker))
-            for field in inf_fields:
+            for field in self.fields.inf_fields:
                 self.company_infos[field] = scrape_company_infos(html, field)
             print('Company Info for ' + str(self.ticker) + ' successfuly obtained')
 
@@ -155,7 +157,7 @@ class yahoo_ff:
         self.key_stats = {}
         try:
             html = get_source_code(get_keystats_url(self.ticker))
-            for field in ks_fields:
+            for field in self.fields.ks_fields:
                 self.key_stats[field] = scrape_key_stats(html, field)
             print('Key Stats for ' + str(self.ticker) + ' successfuly obtained')
 

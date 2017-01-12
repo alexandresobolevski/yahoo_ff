@@ -7,7 +7,7 @@ if os.path.exists('README.txt'):
 
 setup(
     name = "yahoo_ff",
-    version = "1.0.19",
+    version = "1.1.4",
     author = "Alexandre Sobolevski",
     author_email = "sobolevski.a@gmail.com",
     description = "Quick module to scrape yahoo financial data for stocks.",
