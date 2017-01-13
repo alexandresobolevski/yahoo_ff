@@ -43,13 +43,15 @@ class yahoo_ff:
             self.__wait()
             self.__construct_price()
 
-            self.sec_annual = self.__sec_package_annual()
-            self.sec_quarter= self.__sec_package_quarterly()
-            self.price = self.__price()
-            self.info  = self.__information()
-            self.stats = self.__key_stats()
-
             print('flag is ' + str(self.flag))
+            
+            if (self.flag == 0):
+                self.sec_annual = self.__sec_package_annual()
+                self.sec_quarter= self.__sec_package_quarterly()
+                self.price = self.__price()
+                self.info  = self.__information()
+                self.stats = self.__key_stats()
+
 
     def __construct_is_annual(self):
         '''
